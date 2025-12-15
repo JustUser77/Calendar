@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kalender</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body.dark-mode {
+      background: #1e1e1e;
+      color: #f0f0f0;
+    }
+
+    #dropdown-panel {
+      position: absolute;
+      right: 0;
+      top: 40px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      z-index: 100;
+      padding: 6px 0;
+      opacity: 1;
+      transform: scale(1);
+      transition: all 0.25s ease;
+    }
+
+    #dropdown-panel.hidden {
+      opacity: 0;
+      transform: scale(0.98);
+      pointer-events: none;
+    }
+
+    #dropdown-panel button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .modal.hidden {
+      display: none;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 300px;
+    }
+
+    .calendar-toolbar {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .calendar-header,
+    .calendar-today,
+    .view-tabs {
+      margin: 10px 0;
+    }
+
+    .calendar-grid {
+      min-height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Kalender</h1>
+
+    <!--  Cuaca Hari Ini -->
+    <div class="weather-section" id="weather-panel">
+      <div id="weather-info"></div>
+      <select id="city-select">
+        <option value="Medan">🌇 Medan</option>
+        <option value="Jakarta">🏙️ Jakarta</option>
+        <option value="Bandung">🌤️ Bandung</option>
+        <option value="Surabaya">🌆 Surabaya</option>
+        <option value="Yogyakarta">🏞️ Yogyakarta</option>
+      </select>
+    </div>
+
+    <!--  Toolbar -->
+    <div class="calendar-toolbar">
+      <button id="btn-add" title="Tambah event">➕</button>
+      <button id="btn-settings" title="Pengaturan">⋮</button>
+      <div id="dropdown-panel" class="hidden">
+        <button id="toggle-cuaca">Tampilkan/Sembunyikan Cuaca</button>
+        <button id="toggle-theme">Ganti Tema Gelap/Terang</button>
+      </div>
+    </div>
+
+    <!--  Tab Tampilan -->
+    <div class="view-tabs">
+      <button data-view="year">Year</button>
+      <button data-view="month" class="active">Month</button>
+      <button data-view="week">Week</button>
+      <button data-view="agenda">Agenda</button>
+    </div>
+
+    <!--  Header Kalender -->
+    <div class="calendar-header">
+      <button id="prev-month">←</button>
+      <h2 id="month-year"></h2>
+      <button id="next-month">→</button>
+    </div>
+
+    <!--  Tombol Hari Ini -->
+    <div class="calendar-today">
+      <button id="btn-today">🔵 Hari Ini</button>
+    </div>
+
+    <!--  Grid Kalender -->
+    <div class="calendar-grid" id="calendar"></div>
+  </div>
+
+  <!--  Modal Event -->
+  <div id="event-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>Tambah Catatan</h3>
+      <p id="selected-date"></p>
+      <input type="text" id="event-title" placeholder="Judul catatan" />
+      <textarea id="event-desc" placeholder="Deskripsi..."></textarea>
+      <button id="save-event">Simpan</button>
+      <button id="close-modal">Batal</button>
+    </div>
+  </div>
+
+</script>
+
+<script src="script.js"></script>
+</body>
+</html>
 
